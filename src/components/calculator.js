@@ -7,11 +7,11 @@ class Calculator extends React.Component {
       <div className="calculator">
         <div className="calc-display">0</div>
           <div className="calculator-frame">
-            <div className="calc-left">
-              <div className="calculator-top">
-                <div className="calc-keys calculator-top-keys">AC</div>
-                <div className="calc-keys calculator-top-keys">&plusmn;</div>
-                <div className="calc-keys calculator-top-keys">%</div>
+            <div className="input-keys">
+              <div className="function-keys">
+                <div className="calc-keys">AC</div>
+                <div className="calc-keys">&plusmn;</div>
+                <div className="calc-keys" >%</div>
               </div>
 
               <div className="digit-wrapper">
@@ -28,12 +28,12 @@ class Calculator extends React.Component {
                 <div className="calc-keys dot-key">.</div>
               </div>
             </div>
-            <div className="calculator-expressions">
-              <div className="calc-keys exp-keys divde-key">&divide;</div>
-              <div className="calc-keys exp-keys times-key">&times;</div>
-              <div className="calc-keys exp-keys minus-key">-</div>
-              <div className="calc-keys exp-keys plus-key">+</div>
-              <div className="calc-keys exp-keys equal-key">=</div>
+            <div className="operator-keys">
+              <div className="calc-keys divde-key">&divide;</div>
+              <div className="calc-keys times-key">&times;</div>
+              <div className="calc-keys minus-key">-</div>
+              <div className="calc-keys plus-key">+</div>
+              <div className="calc-keys equal-key">=</div>
             </div>
           </div>
         </div>
