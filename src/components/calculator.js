@@ -1,15 +1,65 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import '../styles/css/calculator.css';
 
 class Calculator extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.digitValue = this.digitValue.bind(this);
+    this.addDot = this.addDot.bind(this);
+    this.clear = this.clear.bind(this);
+
+
+    this.state = {
+      displayValue: 0
+    }
+  }
+
+  clear(){
+    console.log('clear clear')
+    this.setState({
+      displayValue: 0
+    })
+  }
+
+  digitValue(digit) {
+    console.log(this.state.displayValue)
+    if(this.state.displayValue === 0){
+    this.setState({
+      displayValue: digit
+    })
+  }
+  else {
+    this.setState({
+      displayValue: this.state.displayValue + digit.toString()
+    })
+  }
+  }
+
+  addDot() {
+
+    if (this.state.displayValue.indexOf('.') === -1) {
+    this.setState({
+      displayValue: (this.state.displayValue + '.')
+    })
+    }
+    else{
+      this.setState({
+        displayValue: this.state.displayValue
+      })
+    }
+  }
+
+
   render() {
     return(
       <div className="calculator">
-        <div className="calc-display">0</div>
+        <div className="calc-display">{this.state.displayValue}</div>
           <div className="calculator-frame">
             <div className="input-keys">
               <div className="function-keys">
-                <div className="calc-keys">AC</div>
+                <div className="calc-keys" onClick = {() =>  this.clear()}>AC</div>
                 <div className="calc-keys">&plusmn;</div>
                 <div className="calc-keys" >%</div>
               </div>
@@ -25,7 +75,7 @@ class Calculator extends React.Component {
                 <div className="calc-keys digit-2" onClick = {() =>  this.digitValue(2)}>2</div>
                 <div className="calc-keys digit-1" onClick = {() =>  this.digitValue(1)}>1</div>
                 <div className="calc-keys digit-0" onClick = {() =>  this.digitValue(0)}>0</div>
-                <div className="calc-keys dot-key">.</div>
+                <div className="calc-keys dot-key" onClick = {() =>  this.addDot()}>.</div>
               </div>
             </div>
             <div className="operator-keys">
