@@ -9,22 +9,37 @@ class Calculator extends React.Component {
     this.digitValue = this.digitValue.bind(this);
     this.addDot = this.addDot.bind(this);
     this.clear = this.clear.bind(this);
+    this.plusMinus = this.plusMinus.bind(this);
+    this.percent = this.percent.bind(this);
+    // this.operator = this.operator.bind(this);
 
 
     this.state = {
       displayValue: 0
     }
-  }
+}
 
   clear(){
-    console.log('clear clear')
-    this.setState({
+      this.setState({
       displayValue: 0
     })
   }
 
+  plusMinus(){
+      this.setState({
+        displayValue: (parseFloat(this.state.displayValue) * -1).toString()
+      })
+    }
+
+    percent(){
+      this.setState({
+        displayValue: (parseFloat(this.state.displayValue) / 100).toString()
+      })
+    }
+
+
   digitValue(digit) {
-    console.log(this.state.displayValue)
+
     if(this.state.displayValue === 0){
     this.setState({
       displayValue: digit
@@ -60,8 +75,8 @@ class Calculator extends React.Component {
             <div className="input-keys">
               <div className="function-keys">
                 <div className="calc-keys" onClick = {() =>  this.clear()}>AC</div>
-                <div className="calc-keys">&plusmn;</div>
-                <div className="calc-keys" >%</div>
+                <div className="calc-keys" onClick = {() => this.plusMinus()}>&plusmn;</div>
+                <div className="calc-keys" onClick = {() => this.percent()}>%</div>
               </div>
 
               <div className="digit-wrapper">
@@ -79,11 +94,11 @@ class Calculator extends React.Component {
               </div>
             </div>
             <div className="operator-keys">
-              <div className="calc-keys divde-key">&divide;</div>
-              <div className="calc-keys times-key">&times;</div>
-              <div className="calc-keys minus-key">-</div>
-              <div className="calc-keys plus-key">+</div>
-              <div className="calc-keys equal-key">=</div>
+              <div className="calc-keys divde-key" >&divide;</div>
+              <div className="calc-keys times-key" >&times;</div>
+              <div className="calc-keys minus-key" >-</div>
+              <div className="calc-keys plus-key" >+</div>
+              <div className="calc-keys equal-key" >=</div>
             </div>
           </div>
         </div>
