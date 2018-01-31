@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/css/calculator.css';
+import { Textfit } from 'react-textfit';
+import NumberFormat from 'react-number-format';
 
 class Calculator extends React.Component {
 
@@ -8,75 +10,116 @@ class Calculator extends React.Component {
     super(props)
     this.digitValue = this.digitValue.bind(this);
     this.addDot = this.addDot.bind(this);
-    this.clear = this.clear.bind(this);
+    this.clearKey = this.clearKey.bind(this);
     this.plusMinus = this.plusMinus.bind(this);
-    this.percent = this.percent.bind(this);
-    // this.operator = this.operator.bind(this);
+    this.calculatePercent = this.calculatePercent.bind(this);
+    this.performOperation = this.performOperation.bind(this);
+    this.performCalculation = this.performCalculation.bind(this);
 
 
     this.state = {
-      displayValue: 0
+      displayValue: '0',
+      savedValue: '0',
+      waitingOnOperand: false,
+      operator: null
     }
 }
 
-  clear(){
+  clearKey(){
       this.setState({
-      displayValue: 0
+      displayValue: '0'
     })
   }
 
   plusMinus(){
       this.setState({
-        displayValue: (parseFloat(this.state.displayValue) * -1).toString()
+        displayValue: String(parseFloat(this.state.displayValue) * -1)
       })
     }
 
-    percent(){
+    calculatePercent(){
       this.setState({
-        displayValue: (parseFloat(this.state.displayValue) / 100).toString()
+        displayValue: String(parseFloat(this.state.displayValue) / 100)
       })
     }
 
 
   digitValue(digit) {
+    const displayValue = this.state.displayValue
 
-    if(this.state.displayValue === 0){
-    this.setState({
-      displayValue: digit
-    })
-  }
-  else {
-    this.setState({
-      displayValue: this.state.displayValue + digit.toString()
-    })
-  }
-  }
+    if(this.state.waitingOnOperand){
+      this.setState({
+        displayValue: String(digit),
 
+      })
+  }else{
+    this.setState({
+      displayValue: displayValue === '0' ? String(digit) : displayValue + String(digit)
+    })
+}
+}
   addDot() {
+    const displayValue = this.state.displayValue
 
-    if (this.state.displayValue.indexOf('.') === -1) {
     this.setState({
-      displayValue: (this.state.displayValue + '.')
+      displayValue: displayValue.indexOf('.') === -1 ? displayValue + '.' : displayValue,
+      waitingOnOperand: false
     })
     }
-    else{
-      this.setState({
-        displayValue: this.state.displayValue
+
+  performOperation(operator){
+      const displayValue = this.state.displayValue
+      const savedValue = this.state.savedValue
+
+    this.setState({
+        savedValue: this.state.displayValue,
+        waitingOnOperand: true,
+        operator: operator
       })
     }
-  }
 
+performCalculation() {
+  const displayValue = this.state.displayValue
+  const savedValue = this.state.savedValue
+  const operator = this.state.operator
+
+console.log (displayValue, savedValue, operator)
+
+          if(operator ==='divide'){
+            this.setState({
+              displayValue: String(parseFloat(savedValue / displayValue))
+            })
+          }
+          if(operator ==='multiply'){
+            this.setState({
+              displayValue: String(parseFloat(savedValue * displayValue))
+            })
+          }
+          if(operator ==='add'){
+            this.setState({
+              displayValue: String(parseFloat(savedValue + displayValue))
+            })
+          }
+          if(operator ==='subract'){
+            this.setState({
+              displayValue: String(parseFloat(savedValue - displayValue))
+              })
+          }
+
+        }
 
   render() {
     return(
+
       <div className="calculator">
-        <div className="calc-display">{this.state.displayValue}</div>
+        <Textfit className="calc-display" mode="single"
+        forceSingleModeWidth={false}><NumberFormat value={this.state.displayValue} displayType={'text'} thousandSeparator={true}/></Textfit>
           <div className="calculator-frame">
             <div className="input-keys">
               <div className="function-keys">
-                <div className="calc-keys" onClick = {() =>  this.clear()}>AC</div>
+                <div className="calc-keys" onClick = {() =>  this.clearKey()}>AC</div>
                 <div className="calc-keys" onClick = {() => this.plusMinus()}>&plusmn;</div>
-                <div className="calc-keys" onClick = {() => this.percent()}>%</div>
+                <div className="calc-keys" onClick = {() => this.calculatePercent()}>%</div>
               </div>
 
               <div className="digit-wrapper">
@@ -94,11 +137,11 @@ class Calculator extends React.Component {
               </div>
             </div>
             <div className="operator-keys">
-              <div className="calc-keys divde-key" >&divide;</div>
-              <div className="calc-keys times-key" >&times;</div>
-              <div className="calc-keys minus-key" >-</div>
-              <div className="calc-keys plus-key" >+</div>
-              <div className="calc-keys equal-key" >=</div>
+              <div className="calc-keys divde-key" onClick = {() =>  this.performOperation('divide')}>&divide; </div>
+              <div className="calc-keys multiply-key" onClick = {() =>  this.performOperation('multiply')}>x</div>
+              <div className="calc-keys subract-key" onClick = {() =>  this.performOperation('subract')}>-</div>
+              <div className="calc-keys add-key" onClick = {() =>  this.performOperation('add')}>+</div>
+              <div className="calc-keys equal-key" onClick = {() =>  this.performCalculation()}>=</div>
             </div>
           </div>
         </div>
