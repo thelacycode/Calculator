@@ -27,7 +27,8 @@ class Calculator extends React.Component {
 
   clearKey(){
       this.setState({
-      displayValue: '0'
+      displayValue: '0',
+      waitingOnOperand: false
     })
   }
 
@@ -49,7 +50,7 @@ class Calculator extends React.Component {
 
     if(this.state.waitingOnOperand){
       this.setState({
-        displayValue: String(digit),
+        displayValue: String(digit)
 
       })
   }else{
@@ -57,6 +58,10 @@ class Calculator extends React.Component {
       displayValue: displayValue === '0' ? String(digit) : displayValue + String(digit)
     })
 }
+
+this.setState({
+  waitingOnOperand: false
+})
 }
   addDot() {
     const displayValue = this.state.displayValue
@@ -79,34 +84,31 @@ class Calculator extends React.Component {
     }
 
 performCalculation() {
-  const displayValue = this.state.displayValue
-  const savedValue = this.state.savedValue
+  const displayValue = parseFloat(this.state.displayValue)
+  const savedValue = parseFloat(this.state.savedValue)
   const operator = this.state.operator
-
-console.log (displayValue, savedValue, operator)
 
           if(operator ==='divide'){
             this.setState({
-              displayValue: String(parseFloat(savedValue / displayValue))
+              displayValue: String(savedValue / displayValue)
             })
           }
           if(operator ==='multiply'){
             this.setState({
-              displayValue: String(parseFloat(savedValue * displayValue))
+              displayValue: String(savedValue * displayValue)
             })
           }
           if(operator ==='add'){
             this.setState({
-              displayValue: String(parseFloat(savedValue + displayValue))
+              displayValue: String(savedValue + displayValue)
             })
           }
           if(operator ==='subract'){
             this.setState({
-              displayValue: String(parseFloat(savedValue - displayValue))
+              displayValue: String(savedValue - displayValue)
               })
           }
-
-        }
+      }
 
   render() {
     return(
