@@ -4,4 +4,6 @@ Basic calculator built using react.
 
 https://thelacycode.github.io/Calculator
 
-![Calculator](/images/ReactCalculator.png =200x300)
+<img src="/images/ReactCalculator.png" width="400" height="2750" />
+
+![Calculator]
